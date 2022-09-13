@@ -1,2 +1,2 @@
-sudo pip install ffmpeg pydub
+sudo pip install ffmpeg pydub pandas
 sudo apt install ffmpeg -y
