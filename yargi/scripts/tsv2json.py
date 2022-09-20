@@ -12,17 +12,18 @@ def tsv2json(input_file,output_file):
  for line in file:
   d = {}
   for t, f in zip(titles, line.split('\t')):
-   
+
    # Convert each row into dictionary with keys as titles
    d[t] = f.strip()
-   
+   if t == "duration" or t == "start_sec":
+     d[t] = float(f.strip())
   # we will use strip to remove '\n'.
   arr.append(d)
   
   # we will append all the individual dictionaires into list
   # and dump into file.
  with open(output_file, 'w', encoding='utf-8') as output_file:
-  output_file.write(json.dumps(arr, indent=4, ensure_ascii=False).encode('utf8').decode('utf8'))
+  output_file.write(json.dumps(arr, indent=4, ensure_ascii=False))
 
 # Driver Code
 input_filename = 'caption.tsv'
