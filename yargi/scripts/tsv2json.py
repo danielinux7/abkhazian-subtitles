@@ -22,7 +22,7 @@ def tsv2json(input_file,output_file):
   # we will append all the individual dictionaires into list
   # and dump into file.
  with open(output_file, 'w', encoding='utf-8') as output_file:
-  output_file.write(json.dumps(arr, indent=4))
+  output_file.write(json.dumps(arr, indent=4, ensure_ascii=False).encode('utf8').decode('utf8'))
 
 # Driver Code
 input_filename = 'caption.tsv'
