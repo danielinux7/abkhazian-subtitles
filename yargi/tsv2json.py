@@ -28,6 +28,8 @@ def tsv2json(input_file,output_file):
    d[t] = f.strip()
    if t == "duration" or t == "start_sec":
      d[t] = float(f.strip())
+   if t == "length":
+     d[t] = int(f.strip())
   # we will use strip to remove '\n'.
   arr.append(d)
   
