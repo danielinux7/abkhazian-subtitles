@@ -25,7 +25,7 @@ def tsv2json(input_file,output_file):
 
    # Convert each row into dictionary with keys as titles
    d[t] = f.strip()
-   if t == "duration" or t == "start_sec":
+   if t == "duration" or t == "start_sec" or t == "end_sec":
      d[t] = float(f.strip())
    if t == "length":
      d[t] = int(f.strip())
