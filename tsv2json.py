@@ -6,7 +6,7 @@ df['end_sec'] = round(pd.to_timedelta(df['end']).dt.total_seconds(),3)
 df['duration'] = round(df['end_sec'] - df['start_sec'],3)
 df['clip'] = [ str(i+1) for i in range(0, (len(df.index)), 1) ]
 df['length'] = [ len(str(df['source'][i])) for i in range(0, (len(df.index)), 1) ]
-df.to_csv('caption-edited.tsv', sep='\t', quoting=3, index=False, columns = ['clip','start_sec','end_sec','duration','source','target','gender','length'])
+df.to_csv('caption-edited.tsv', sep='\t', quoting=3, index=False, columns = ['clip','start','end','start_sec','end_sec','duration','source','target','gender','length'])
 
 import json
 
