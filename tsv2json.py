@@ -16,7 +16,10 @@ def tsv2json(input_file,output_file):
    # Convert each row into dictionary with keys as titles
    d[t] = f.strip()
    if t == "duration" or t == "start_sec" or t == "end_sec" or t == "extra":
-     d[t] = float(f.strip())
+     try:
+       d[t] = float(f.strip())
+     except:
+       print("We have a problem!",line)
    if t == "length":
      d[t] = int(f.strip())
   # we will use strip to remove '\n'.
