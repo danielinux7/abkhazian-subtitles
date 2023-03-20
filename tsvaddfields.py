@@ -13,4 +13,5 @@ for i in df.index:
 df['extra'] = temp
 df['clip'] = [ str(i+1) for i in range(0, (len(df.index)), 1) ]
 df['length'] = [ len(str(df['source'][i])) for i in range(0, (len(df.index)), 1) ]
+df['character'] = ['all']
 df.to_csv('caption-edited.tsv', sep='\t', quoting=3, index=False, columns = ['clip','start','end','start_sec','end_sec','duration','extra','source','target','character','length'])
