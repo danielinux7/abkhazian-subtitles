@@ -30,7 +30,7 @@ for meta in metadata:
            pad = AudioSegment.silent(duration=((temp[i+1]["start_sec"]-(sub["start_sec"]+clip.duration_seconds))*1000)-1.7);
          Sound_list.append(clip);
          Sound_list.append(pad);
-         label.append(sub["start"]+"\t"+sub["end"]+"\t"+sub["clip"]+". "+sub["target"]+"\n")
+         label.append(str(sub["start_sec"])+"\t"+str(sub["end_sec"])+"\t"+sub["clip"]+". "+sub["target"]+"\n")
     Sound_list_2 = []
     i = 0;
     while (i < len(Sound_list)):
@@ -60,7 +60,7 @@ for meta in metadata:
            pad = AudioSegment.silent(duration=((temp[i+1]["start_sec"]-(sub["start_sec"]+clip.duration_seconds))*1000)-1.7);
          Sound_list.append(clip);
          Sound_list.append(pad);
-         label.append(sub["start"]+"\t"+sub["end"]+"\t"+sub["clip"]+". "+sub["target"]+"\n")
+         label.append(str(sub["start_sec"])+"\t"+str(sub["end_sec"])+"\t"+sub["clip"]+". "+sub["target"]+"\n")
     Sound_list_2 = []
     i = 0;
     while (i < len(Sound_list)):
