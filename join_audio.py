@@ -41,7 +41,7 @@ for meta in metadata:
       print(i);
       i= i+100;
     final_sound = sum(Sound_list_2);
-    final_sound.export("../audio_"+meta["charType"]+".m4a", format="mp4");
+    final_sound.export("../audio_"+meta["charType"]);
     l = open("../audio_"+meta["charType"]+".txt", "w");
     l.writelines(label);
 
@@ -71,6 +71,6 @@ for meta in metadata:
       print(i);
       i= i+100;
     final_sound = sum(Sound_list_2);
-    final_sound.export("../audio_"+meta["charType"]+"_extended.m4a", format="mp4");
+    final_sound.export("../audio_"+meta["charType"]+"_extended");
     l = open("../audio_"+meta["charType"]+"_extended.txt", "w");
     l.writelines(label);
