@@ -6,15 +6,11 @@ logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 PAYMENT_PROVIDER_TOKEN = "381764678:TEST:55033"
 
-async def start_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    msg = ("Use /donate for an invoice.")
-    await update.message.reply_text(msg)
-
 
 async def start_donate_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.message.chat_id
     title = "Donations"
-    description = "Donation to support translation and voiceovering films."
+    description = "Donations to support translation and voiceovering films."
     payload = "Custom-Payload"
     currency = "RUB"
     prices = [
@@ -33,7 +29,7 @@ async def start_donate_callback(update: Update, context: ContextTypes.DEFAULT_TY
     
     keyboard = InlineKeyboardMarkup(buttons)
     
-    message = "Please choose a donation amount:"
+    message = "Donations to support translation and voiceovering films.\n\nPlease choose a donation amount:"
     await context.bot.send_message(chat_id, message, reply_markup=keyboard)
 
 
@@ -48,7 +44,7 @@ async def callback_query_handler(update: Update, context: ContextTypes.DEFAULT_T
         return
 
     title = "Donations"
-    description = "Donation to support translation and voiceovering films."
+    description = "Donations to support translation and voiceovering films."
     payload = "Custom-Payload"
     currency = "RUB"
     prices = [
@@ -82,8 +78,7 @@ async def successful_payment_callback(update: Update, context: ContextTypes.DEFA
 
 def main() -> None:
     application = Application.builder().token("5751913683:AAHl6pLGGIAix8hlwb59mAg7mYiQO4eqXYI").build()
-    application.add_handler(CommandHandler("start", start_callback))
-    application.add_handler(CommandHandler("donate", start_donate_callback))
+    application.add_handler(CommandHandler("start", start_donate_callback))
     application.add_handler(CallbackQueryHandler(callback_query_handler))
     application.add_handler(PreCheckoutQueryHandler(precheckout_callback))
     application.add_handler(MessageHandler(filters.SUCCESSFUL_PAYMENT, successful_payment_callback))
