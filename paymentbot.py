@@ -4,19 +4,19 @@ from telegram.ext import (Application,CommandHandler,ContextTypes,MessageHandler
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
-PAYMENT_PROVIDER_TOKEN = "381764678:TEST:55033"
+PAYMENT_PROVIDER_TOKEN = ""
 
 
 async def start_donate_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.message.chat_id
     title = "Donations"
-    description = "Donations to support translation and voiceovering films."
+    description = "Афильмқәа реиҭагареи абжьырхаҵареи адгылара аҭаразы аҧарашәара (агәыҳалалра аарҧшра)."
     payload = "Custom-Payload"
     currency = "RUB"
     prices = [
-        LabeledPrice("Donation amount (100 RUB)", 10000),
-        LabeledPrice("Donation amount (200 RUB)", 20000),
-        LabeledPrice("Donation amount (500 RUB)", 50000)
+        LabeledPrice("Агәыҳалалразы иахшәаатәуп (100 мааҭк)", 10000),
+        LabeledPrice("Агәыҳалалразы иахшәаатәуп (200 мааҭк)", 20000),
+        LabeledPrice("Агәыҳалалразы иахшәаатәуп (500 мааҭк)", 50000)
     ]
 
     buttons = []
@@ -29,7 +29,7 @@ async def start_donate_callback(update: Update, context: ContextTypes.DEFAULT_TY
     
     keyboard = InlineKeyboardMarkup(buttons)
     
-    message = "Donations to support translation and voiceovering films.\n\nPlease choose a donation amount:"
+    message = "Афильмқәа реиҭагареи абжьырхаҵареи адгылара аҭаразы аҧарашәара (агәыҳалалра аарҧшра)."
     await context.bot.send_message(chat_id, message, reply_markup=keyboard)
 
 
@@ -43,14 +43,14 @@ async def callback_query_handler(update: Update, context: ContextTypes.DEFAULT_T
         await query.answer("Invalid selection")
         return
 
-    title = "Donations"
-    description = "Donations to support translation and voiceovering films."
+    title = "Агәыҳалалра аарҧшра"
+    description = "Афильмқәа реиҭагареи абжьырхаҵареи адгылара аҭаразы аҧарашәара (агәыҳалалра аарҧшра)."
     payload = "Custom-Payload"
     currency = "RUB"
     prices = [
-        LabeledPrice("Donation amount (100 RUB)", 10000),
-        LabeledPrice("Donation amount (200 RUB)", 20000),
-        LabeledPrice("Donation amount (500 RUB)", 50000)
+        LabeledPrice("Агәыҳалалразы иахшәаатәуп (100 мааҭк)", 10000),
+        LabeledPrice("Агәыҳалалразы иахшәаатәуп (200 мааҭк)", 20000),
+        LabeledPrice("Агәыҳалалразы иахшәаатәуп (500 мааҭк)", 50000)
     ]
     index = 0
     for i, obj in enumerate(prices):
@@ -73,11 +73,11 @@ async def precheckout_callback(update: Update, context: ContextTypes.DEFAULT_TYP
         await query.answer(ok=True)
 
 async def successful_payment_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text("Thank you for your donation!")
+    await update.message.reply_text("Иҭабуп иаашәырҧшыз агәыҳалалразы!")
 
 
 def main() -> None:
-    application = Application.builder().token("5751913683:AAHl6pLGGIAix8hlwb59mAg7mYiQO4eqXYI").build()
+    application = Application.builder().token("").build()
     application.add_handler(CommandHandler("start", start_donate_callback))
     application.add_handler(CallbackQueryHandler(callback_query_handler))
     application.add_handler(PreCheckoutQueryHandler(precheckout_callback))
