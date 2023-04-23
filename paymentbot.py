@@ -1,15 +1,26 @@
 import logging
-from telegram import LabeledPrice, Update, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import LabeledPrice, Update, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import (Application,CommandHandler,ContextTypes,MessageHandler,PreCheckoutQueryHandler,CallbackQueryHandler,filters)
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
-PAYMENT_PROVIDER_TOKEN = ""
+PAYMENT_PROVIDER_TOKEN = "381764678:TEST:55033"
+
+async def start_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    keyboard = [
+        [KeyboardButton("💰Аҧарашәара")],
+        [KeyboardButton("👥 Ҳазҭагылоу")],
+        [KeyboardButton("📚Азҵаарақәа")],
+    ]
+
+    reply_markup = ReplyKeyboardMarkup(keyboard,resize_keyboard=True)
+    
+    await update.message.reply_text("Бзиала шәаабеит!", reply_markup=reply_markup)
 
 
 async def start_donate_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.message.chat_id
-    title = "Donations"
+    title = "Агәыҳалалра аарҧшра"
     description = "Афильмқәа реиҭагареи абжьырхаҵареи адгылара аҭаразы аҧарашәара (агәыҳалалра аарҧшра)."
     payload = "Custom-Payload"
     currency = "RUB"
@@ -78,9 +89,10 @@ async def successful_payment_callback(update: Update, context: ContextTypes.DEFA
 
 def main() -> None:
     application = Application.builder().token("").build()
-    application.add_handler(CommandHandler("start", start_donate_callback))
+    application.add_handler(CommandHandler("start", start_callback))
     application.add_handler(CallbackQueryHandler(callback_query_handler))
     application.add_handler(PreCheckoutQueryHandler(precheckout_callback))
+    application.add_handler(MessageHandler(filters.Regex("^(💰Аҧарашәара)$"), start_donate_callback))
     application.add_handler(MessageHandler(filters.SUCCESSFUL_PAYMENT, successful_payment_callback))
     application.run_polling()
 
