@@ -5,8 +5,8 @@ from telegram.ext import (Application,CommandHandler,ContextTypes,MessageHandler
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
-PAYMENT_PROVIDER_TOKEN = ""
-BOT_TOKEN = ""
+PAYMENT_PROVIDER_TOKEN = "381764678:TEST:55388"
+BOT_TOKEN = "6096803399:AAGD2k6gmUZd28sQ76eAMDxjTvObVyz5Low"
 
 async def start_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     keyboard = [
@@ -115,7 +115,7 @@ async def total_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     if all_total == None:
         all_total = 0
     # Send the user's contribution total and the total amount contributed by all users
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="Your total contribution: {} мааҭ\nTotal contribution by all users: {} мааҭ".format(user_total, all_total))
+    await context.bot.send_message(chat_id=update.effective_chat.id, text="Адонорцәа рзеиҧш лагала:\n{} мааҭ\n\nУара узеиҧш лагала:\n{} мааҭ".format(user_total, all_total))
 
 
 def main() -> None:
