@@ -5,8 +5,8 @@ from telegram.ext import (Application,CommandHandler,ContextTypes,MessageHandler
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
-PAYMENT_PROVIDER_TOKEN = "381764678:TEST:55388"
-BOT_TOKEN = "6096803399:AAGD2k6gmUZd28sQ76eAMDxjTvObVyz5Low"
+PAYMENT_PROVIDER_TOKEN = ""
+BOT_TOKEN = ""
 
 async def start_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     keyboard = [
