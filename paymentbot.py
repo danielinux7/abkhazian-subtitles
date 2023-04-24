@@ -1,3 +1,4 @@
+import sqlite3
 import logging
 from telegram import LabeledPrice, Update, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import (Application,CommandHandler,ContextTypes,MessageHandler,PreCheckoutQueryHandler,CallbackQueryHandler,filters)
@@ -26,7 +27,7 @@ async def start_donate_callback(update: Update, context: ContextTypes.DEFAULT_TY
     payload = "Custom-Payload"
     currency = "RUB"
     prices = [
-        LabeledPrice("100 мааҭк", 10000),
+        LabeledPrice("100 мааҭ", 10000),
         LabeledPrice("200 мааҭ", 20000),
         LabeledPrice("500 мааҭ", 50000),
         LabeledPrice("1000 мааҭ", 100000)
@@ -64,7 +65,7 @@ async def callback_query_handler(update: Update, context: ContextTypes.DEFAULT_T
     payload = "Custom-Payload"
     currency = "RUB"
     prices = [
-        LabeledPrice("100 мааҭк", 10000),
+        LabeledPrice("100 мааҭ", 10000),
         LabeledPrice("200 мааҭ", 20000),
         LabeledPrice("500 мааҭ", 50000),
         LabeledPrice("1000 мааҭ", 100000)
@@ -91,6 +92,30 @@ async def precheckout_callback(update: Update, context: ContextTypes.DEFAULT_TYP
 
 async def successful_payment_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("Иҭабуп иаашәырҧшыз агәыҳалалразы!")
+    # Save the amount to the database
+    amount = update.message.successful_payment.total_amount/100
+    conn = sqlite3.connect('contributions.db')
+    c = conn.cursor()
+    c.execute("CREATE TABLE IF NOT EXISTS contributions (user_id INTEGER, amount REAL)")
+    c.execute("INSERT INTO contributions VALUES (?, ?)", (update.effective_user.id, amount))
+    conn.commit()
+    conn.close()
+
+    # Define the callback function for the /total command
+async def total_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    conn = sqlite3.connect('contributions.db')
+    c = conn.cursor()
+    c.execute("CREATE TABLE IF NOT EXISTS contributions (user_id INTEGER, amount REAL)")
+    user_total = c.execute("SELECT SUM(amount) FROM contributions WHERE user_id=?", (update.effective_user.id,)).fetchone()[0]
+    all_total = c.execute("SELECT SUM(amount) FROM contributions").fetchone()[0]
+    conn.close()
+    
+    if user_total == None:
+        user_total = 0
+    if all_total == None:
+        all_total = 0
+    # Send the user's contribution total and the total amount contributed by all users
+    await context.bot.send_message(chat_id=update.effective_chat.id, text="Your total contribution: {} мааҭ\nTotal contribution by all users: {} мааҭ".format(user_total, all_total))
 
 
 def main() -> None:
@@ -99,6 +124,7 @@ def main() -> None:
     application.add_handler(CallbackQueryHandler(callback_query_handler))
     application.add_handler(PreCheckoutQueryHandler(precheckout_callback))
     application.add_handler(MessageHandler(filters.Regex("^(💰Аҧарашәара)$"), start_donate_callback))
+    application.add_handler(MessageHandler(filters.Regex("^(👥 Ҳазҭагылоу)$"), total_callback))
     application.add_handler(MessageHandler(filters.SUCCESSFUL_PAYMENT, successful_payment_callback))
     application.run_polling()
 
