@@ -3,13 +3,8 @@ import requests
 # Make API requests for ticker data
 binance_url = 'https://api.binance.com/api/v3/ticker/price'
 okex_url = 'https://www.okex.com/api/v5/market/tickers?instType=SPOT'
-while True:
-    try:
-        binance_response = requests.get(binance_url)
-        okex_response = requests.get(okex_url)
-        break
-    except requests.exceptions.RequestException as e:
-        print(f"Failed to get data. {str(e)}. Retrying in 5 seconds...")
+binance_response = requests.get(binance_url)
+okex_response = requests.get(okex_url)
 binance_data = binance_response.json()
 okex_data = okex_response.json()
 
