@@ -41,6 +41,9 @@ def format_srt(srt_path, max_chars_per_line=30):
     formatted_srt = ''
     for subtitle_block in subtitle_blocks:
         subtitle_lines = subtitle_block.strip().split('\n')
+        if (len(subtitle_lines) == 2):
+            print(subtitle_lines[0]+" is empty! Not translated yet!")
+            break
         subtitle_text = subtitle_lines[2]
 
         # Break subtitle text into multiple lines if it's too long
